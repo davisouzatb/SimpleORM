@@ -555,10 +555,10 @@ begin
         begin
           if prpRtti.GetValue(Pointer(FInstance)).TypeInfo = TypeInfo(TDateTime) then
           begin
-            if prpRtti.GetValue(Pointer(FInstance)).AsExtended = 0 then
-              aDictionary.Add(prpRtti.FieldName, Null)
+            if StrToDateTime(prpRtti.GetValue(Pointer(FInstance)).ToString) = 0 then
+              aDictionary.Add(prpRtti.FieldName, null)
             else
-              aDictionary.Add(prpRtti.FieldName, StrToDateTime(prpRtti.GetValue(Pointer(FInstance)).ToString ));
+              aDictionary.Add(prpRtti.FieldName, StrToDateTime(prpRtti.GetValue(Pointer(FInstance)).ToString))
           end
           else
           if prpRtti.GetValue(Pointer(FInstance)).TypeInfo = TypeInfo(TDate) then
@@ -573,7 +573,15 @@ begin
         tkLString,
         tkWString,
         tkUString,
-        tkString      : aDictionary.Add(prpRtti.FieldName, prpRtti.GetValue(Pointer(FInstance)).AsString);
+        tkString      : 
+        begin
+          if (prpRtti.EhChaveEstrangeira) and
+             (prpRtti.GetValue(Pointer(FInstance)).AsString = '')
+          then
+            aDictionary.Add(prpRtti.FieldName, Null)
+          else
+            aDictionary.Add(prpRtti.FieldName, prpRtti.GetValue(Pointer(FInstance)).AsString);
+        end;
         tkVariant     : aDictionary.Add(prpRtti.FieldName, prpRtti.GetValue(Pointer(FInstance)).AsVariant);
       else
           aDictionary.Add(prpRtti.FieldName, prpRtti.GetValue(Pointer(FInstance)).AsString);
