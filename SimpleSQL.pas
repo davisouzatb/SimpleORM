@@ -140,7 +140,7 @@ begin
     aSQL := aSQL + ' SELECT ' + FFields
   else
     aSQL := aSQL + ' SELECT ' + aFields;
-  aSQL := aSQL + ' FROM ' + aClassName;
+  aSQL := aSQL + ' FROM ' + aClassName + ' WITH (NOLOCK) ';
   if Trim(FJoin) <> '' then
     aSQL := aSQL + ' ' + FJoin + ' ';
   if Trim(FWhere) <> '' then
