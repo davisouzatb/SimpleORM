@@ -321,7 +321,12 @@ begin
             begin
                 if DictionaryTypeFields.TryGetValue(Key, FieldType ) then
                   FQuery.Params.ParamByName(Key).DataType := FieldType;
-                FQuery.Params.ParamByName(Key).Value := DictionaryFields.Items[Key];
+                if (DictionaryFields.Items[Key] <> null) and
+                    (Length(DictionaryFields.Items[Key]) > 4000)
+                then
+                  FQuery.Params.ParamByName(Key).AsMemo := DictionaryFields.Items[Key]
+                else
+                  FQuery.Params.ParamByName(Key).Value := DictionaryFields.Items[Key];
             end;
         end;
     finally
