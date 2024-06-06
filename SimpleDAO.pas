@@ -327,6 +327,9 @@ begin
                   FQuery.Params.ParamByName(Key).AsMemo := DictionaryFields.Items[Key]
                 else
                   FQuery.Params.ParamByName(Key).Value := DictionaryFields.Items[Key];
+
+                if FQuery.Params.ParamByName(Key).DataType = ftUnknown then
+                  FQuery.Params.ParamByName(Key).DataType := ftString
             end;
         end;
     finally
